@@ -2,11 +2,16 @@
 #include <stack>
 #include <SFML/Graphics.hpp>
 
+#include "AssetManager.h"
 #include "../../include/Core/Constants.h"
 #include "IScene.h"
 #include "../ECS/Systems/ISystem.h"
 #include "../ECS/Systems/RenderSystem.h"
 #include "../ECS/Systems/MovementSystem.h"
+#include "../ECS/Systems/PlayerInputSystem.h"
+#include "../ECS/Systems/PlayerControlSystem.h"
+#include "../ECS/Systems/AnimationSystem.h"
+
 
 namespace MyGame::Core {
 
@@ -17,10 +22,10 @@ namespace MyGame::Core {
         std::vector<std::unique_ptr<ECS::Systems::ISystem>> systems;
         ECS::Registry registry;
         ECS::Entity player;
+        AssetManager assetManager;
 
         void update(float dt);
         void handleEvents();
-        void handleInput();
         void shutdown();
     public:
         Game();

@@ -26,6 +26,17 @@ add_executable(cpp_game main.cpp
         include/ECS/systems/MovementSystem.h
         include/ECS/Systems/ISystem.h
         src/ECS/Systems/RenderSystem.cpp
-        include/ECS/Systems/RenderSystem.h)
+        include/ECS/Systems/RenderSystem.h
+        include/ECS/IPool.h
+        include/ECS/ComponentPool.h
+        src/ECS/Systems/PlayerInputSystem.cpp
+        include/ECS/Systems/PlayerInputSystem.h
+        src/ECS/Systems/PlayerControlSystem.cpp
+        include/ECS/Systems/PlayerControlSystem.h
+        src/Core/AssetManager.cpp
+        include/Core/AssetManager.h
+        src/ECS/Systems/AnimationSystem.cpp
+        include/ECS/Systems/AnimationSystem.h)
 
 target_link_libraries(cpp_game PRIVATE sfml-graphics sfml-window sfml-system)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

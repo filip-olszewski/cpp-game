@@ -3,8 +3,9 @@
 namespace MyGame::ECS::Systems {
 
     MovementSystem::MovementSystem() {
-        requiredMask.set(Components::typeToId(Components::Type::POSITION));
-        requiredMask.set(Components::typeToId(Components::Type::VELOCITY));
+        requiredMask.set(Components::ComponentManager::getId<Components::Position>());
+        requiredMask.set(Components::ComponentManager::getId<Components::Velocity>());
+        requiredMask.set(Components::ComponentManager::getId<Components::Input>());
     }
 
     void MovementSystem::update(Registry &registry, float dt) {
@@ -13,11 +14,11 @@ namespace MyGame::ECS::Systems {
                 continue;
             }
 
-            Components::Position& pos = registry.getPosition(e);
-            Components::Velocity& velocity = registry.getVelocity(e);
+            auto& pos = registry.getComponent<Components::Position>(e);
+            auto& velocity = registry.getComponent<Components::Velocity>(e);
 
-            pos.x = velocity.vx * dt;
-            pos.y = velocity.vy * dt;
+            pos.x = pos.x + velocity.vx * dt;
+            pos.y = pos.y + velocity.vy * dt;
         }
     }
 }

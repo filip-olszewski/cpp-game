@@ -4,8 +4,8 @@ namespace MyGame::ECS::Systems {
 
     RenderSystem::RenderSystem(sf::RenderWindow& window)
         : window(window) {
-        requiredMask.set(Components::typeToId(Components::Type::SPRITE));
-        requiredMask.set(Components::typeToId(Components::Type::POSITION));
+        requiredMask.set(Components::ComponentManager::getId<Components::Render>());
+        requiredMask.set(Components::ComponentManager::getId<Components::Position>());
     }
 
     void RenderSystem::update(Registry &registry, float dt) {
@@ -14,11 +14,19 @@ namespace MyGame::ECS::Systems {
                 continue;
             }
 
-            Components::Sprite& sprite = registry.getSprite(e);
-            Components::Position& position = registry.getPosition(e);
+            Components::Render& render = registry.getComponent<Components::Render>(e);
+            Components::Position& position = registry.getComponent<Components::Position>(e);
 
-            sprite.sprite.setPosition({position.x, position.y});
-            window.draw(sprite.sprite);
+            if (!render.texture) continue;
+
+            sf::Sprite sprite(*render.texture);
+            sprite.setPosition({position.x, position.y});
+
+            if (render.rect.size.x > 0 && render.rect.size.y > 0) {
+                sprite.setTextureRect(render.rect);
+            }
+
+            window.draw(sprite);
         }
     }
 
